@@ -10,13 +10,11 @@ provider "google" {
   region  = var.region
 }
 
-# Call the Cloud Run module for environment-specific deployments
-module "cloud_run" {
-  source   = "git::https://github.com/derrinc/tf-gcp-cloud-run.git"
-  region   = var.region
-  app_name = var.app_name
-  memory   = var.memory
-  cpu      = var.cpu
+# Define locals for dynamic resource names
+locals {
+  dns_record_name    = "cname_record_${replace(var.cname_subdomain, ".", "_")}"
+  domain_mapping_name = "domain_mapping_${replace(var.cname_subdomain, ".", "_")}"
+  service_name        = "cloud_run_service_${replace(var.cname_subdomain, ".", "_")}"
 }
 
 # ------------------------------
@@ -76,6 +74,13 @@ resource "google_cloud_run_service" "cloud_run_service" {
         }
       }
     }
+  }
+
+  # Only add the container image if this is the initial setup.
+  lifecycle {
+    ignore_changes = [
+      template[0].spec[0].containers[0].image
+    ]
   }
 }
 
