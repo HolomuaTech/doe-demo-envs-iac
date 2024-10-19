@@ -7,7 +7,7 @@ variable "project_id" {
 
 variable "project_number" {
   type        = string
-  description = "GCP numeric project ID"
+  description = "GCP numeric project ID."
 }
 
 variable "region" {
@@ -22,27 +22,26 @@ variable "app_name" {
 
 variable "memory" {
   type        = string
-  description = "Memory limit for Cloud Run service."
+  description = "Memory limit for the Cloud Run service."
 }
 
 variable "cpu" {
   type        = string
-  description = "CPU limit for Cloud Run service."
+  description = "CPU limit for the Cloud Run service."
 }
 
 variable "image_url" {
   type        = string
   default     = "gcr.io/cloudrun/hello"
-  description = "List of subdomains to create CNAME records for."
+  description = "The Docker image URL for the Cloud Run service."
 }
 
-variable "cname_subdomains" {
-  type        = list(string)
-  description = "List of subdomains to create CNAME records for."
-}
-
-# New variable for the domain
 variable "domain_name" {
   type        = string
   description = "The custom domain for the Cloud Run application."
+}
+
+variable "cname_subdomain" {
+  type        = string
+  description = "The subdomain to create a CNAME record for."
 }
