@@ -15,33 +15,15 @@ variable "region" {
   description = "The GCP region where resources will be created."
 }
 
-variable "app_name" {
-  type        = string
-  description = "Name of the Cloud Run application."
+variable "app_config" {
+  description = "Configuration for the multiple applications"
+  type = map(object({
+    app_name        = string
+    memory          = string
+    cpu             = string
+    cname_subdomain = string
+    domain_name     = string
+    image_url       = string
+  }))
 }
 
-variable "memory" {
-  type        = string
-  description = "Memory limit for the Cloud Run service."
-}
-
-variable "cpu" {
-  type        = string
-  description = "CPU limit for the Cloud Run service."
-}
-
-variable "image_url" {
-  type        = string
-  default     = "gcr.io/cloudrun/hello"
-  description = "The Docker image URL for the Cloud Run service."
-}
-
-variable "domain_name" {
-  type        = string
-  description = "The custom domain for the Cloud Run application."
-}
-
-variable "cname_subdomain" {
-  type        = string
-  description = "The subdomain to create a CNAME record for."
-}
