@@ -23,6 +23,8 @@ variable "app_config" {
     cpu             = string
     cname_subdomain = string
     domain_name     = string
+    github_owner    = string
+    github_repo     = string
     image_url       = string
   }))
 }

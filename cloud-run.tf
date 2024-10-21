@@ -1,22 +1,9 @@
-# Define the provider
-terraform {
-  backend "gcs" {
-    bucket = "terraform-state-envs-bucket"
-    prefix = "envs"
-  }
-}
-
-provider "google" {
-  project = var.project_id
-  region  = var.region
-}
-
 # Fetch existing DNS managed zone
 data "google_dns_managed_zone" "public_zone" {
   name = "holomuatech-online"
 }
 
-# Loop through each app in the app_config
+# Loop through each app in the app_config to create Cloud Run services
 resource "google_cloud_run_service" "cloud_run_service" {
   for_each = var.app_config
 

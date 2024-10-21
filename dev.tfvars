@@ -9,6 +9,8 @@ app_config = {
     cpu             = "0.08"
     cname_subdomain = "dev.ui"
     domain_name     = "dev.ui.holomuatech.online"
+    github_owner    = "derrinc"
+    github_repo     = "doe-demo-ui"
     image_url       = "gcr.io/cloudrun/hello"
   },
   "doe-demo-api" = {
@@ -17,6 +19,8 @@ app_config = {
     cpu             = "0.08"
     cname_subdomain = "dev.api"
     domain_name     = "dev.api.holomuatech.online"
+    github_owner    = "derrinc"
+    github_repo     = "doe-demo-api"
     image_url       = "gcr.io/cloudrun/hello"
   }
 }
