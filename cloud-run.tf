@@ -24,6 +24,13 @@ resource "google_cloud_run_service" "cloud_run_service" {
       }
     }
   }
+
+  # The "hello" container should only be set if cloud run is being initialized
+  lifecycle {
+    ignore_changes = [
+      template[0].spec[0].containers[0].image
+    ]
+  }
 }
 
 # Create DNS record for each app
@@ -37,6 +44,7 @@ resource "google_dns_record_set" "cname_record" {
   rrdatas      = ["ghs.googlehosted.com."]
 }
 
+# Create Cloud Run domain mapping for each app
 # Create Cloud Run domain mapping for each app
 resource "google_cloud_run_domain_mapping" "domain_mapping" {
   for_each = var.app_config
@@ -56,6 +64,15 @@ resource "google_cloud_run_domain_mapping" "domain_mapping" {
     certificate_mode = "AUTOMATIC"
   }
 
+  # Add lifecycle block to ignore more changes
+  lifecycle {
+    ignore_changes = [
+      metadata[0].annotations,
+      metadata[0].namespace,
+      metadata[0].effective_annotations,
+      spec[0].force_override
+    ]
+  }
+
   depends_on = [google_cloud_run_service.cloud_run_service]
 }
-
