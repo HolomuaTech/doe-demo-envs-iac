@@ -35,11 +35,6 @@ variable "env" {
   type        = string
 }
 
-variable "region" {
-  description = "GCP region for the resources"
-  type        = string
-}
-
 variable "cloud_run_cidr_range" {
   description = "CIDR range for the Cloud Run subnet"
   type        = string
