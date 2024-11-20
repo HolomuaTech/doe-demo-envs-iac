@@ -24,3 +24,14 @@ app_config = {
     image_url       = "gcr.io/cloudrun/hello"
   }
 }
+
+### Network configuration
+module "network" {
+  source = "./network"
+
+  env                    = "dev"
+  region                 = "us-west1"
+  cloud_run_cidr_range   = "10.0.1.0/24"
+  postgres_cidr_range    = "10.0.2.0/24"
+  vpc_connector_cidr     = "10.8.0.0/28"
+}

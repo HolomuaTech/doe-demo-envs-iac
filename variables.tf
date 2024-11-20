@@ -29,3 +29,32 @@ variable "app_config" {
   }))
 }
 
+### Network configuration
+variable "env" {
+  description = "Environment name (e.g., dev, test, prod)"
+  type        = string
+}
+
+variable "region" {
+  description = "GCP region for the resources"
+  type        = string
+}
+
+variable "cloud_run_cidr_range" {
+  description = "CIDR range for the Cloud Run subnet"
+  type        = string
+  default     = "10.0.1.0/24" # Default for dev
+}
+
+variable "postgres_cidr_range" {
+  description = "CIDR range for the PostgreSQL subnet"
+  type        = string
+  default     = "10.0.2.0/24" # Default for dev
+}
+
+variable "vpc_connector_cidr" {
+  description = "CIDR range for the VPC Connector"
+  type        = string
+  default     = "10.8.0.0/28" # Default for dev
+}
+
