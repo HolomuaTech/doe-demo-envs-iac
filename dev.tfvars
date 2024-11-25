@@ -1,7 +1,9 @@
 project_id     = "holomua-doe-demo"
 project_number = "675849533921"
 region         = "us-west1"
+env            = "dev"
 
+# Cloud run configurations. Each microservice needs its own Cloud Run instance
 app_config = {
   "doe-demo-ui" = {
     app_name        = "doe-demo-ui"
@@ -25,13 +27,12 @@ app_config = {
   }
 }
 
-### Network configuration
-module "network" {
-  source = "./network"
+# Network configuration
+cloud_run_cidr_range         = "10.0.1.0/24"
+postgres_cidr_range          = "10.0.2.0/24"
+vpc_connector_cidr           = "10.8.0.0/28"
+vpc_connector_min_throughput = 200
+vpc_connector_max_throughput = 300
 
-  env                    = "dev"
-  region                 = "us-west1"
-  cloud_run_cidr_range   = "10.0.1.0/24"
-  postgres_cidr_range    = "10.0.2.0/24"
-  vpc_connector_cidr     = "10.8.0.0/28"
-}
+# VPC Access Connector machine type
+vpc_connector_machine_type = "e2-micro"

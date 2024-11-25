@@ -53,3 +53,21 @@ variable "vpc_connector_cidr" {
   default     = "10.8.0.0/28" # Default for dev
 }
 
+variable "vpc_connector_min_throughput" {
+  description = "Minimum throughput for VPC connector (in Mbps)"
+  type        = number
+  default     = 200
+}
+
+variable "vpc_connector_max_throughput" {
+  description = "Maximum throughput for VPC connector (in Mbps)"
+  type        = number
+  default     = 200
+}
+
+variable "vpc_connector_machine_type" {
+  description = "VPC Connector machine type"
+  type        = string
+  default     = "e2-micro"
+}
+
