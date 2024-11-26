@@ -1,6 +1,7 @@
 # Fetch existing DNS managed zone
 data "google_dns_managed_zone" "public_zone" {
-  name = "holomuatech-online"
+  name    = "holomuatech-online"
+  project = var.project_id
 }
 
 # Loop through each app in the app_config to create Cloud Run services
@@ -69,7 +70,7 @@ resource "google_cloud_run_domain_mapping" "domain_mapping" {
     ignore_changes = [
       metadata[0].annotations,
       metadata[0].namespace,
-      metadata[0].effective_annotations,
+      # metadata[0].effective_annotations,
       spec[0].force_override
     ]
   }
