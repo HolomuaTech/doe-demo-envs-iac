@@ -10,25 +10,21 @@ module "cloud_run_services" {
 
   for_each = var.app_config
 
-  app_name = each.key
-  image    = each.value.image_url
-  region   = var.region
-  memory   = each.value.memory
-  cpu      = each.value.cpu
+  app_name        = each.key
+  image           = each.value.image_url
+  region          = var.region
+  memory          = each.value.memory
+  cpu             = each.value.cpu
+
+  # Pass DNS information to the module
+  dns_zone_name   = data.google_dns_managed_zone.public_zone.name  # Pass the managed zone name
+  dns_name        = chomp(data.google_dns_managed_zone.public_zone.dns_name)  # Pass the domain name
+  cname_subdomain = each.value.cname_subdomain
 
   # Optionally pass secrets to specific apps (adjust as needed)
-  secret_name = try(each.value.secret_name, null) # Pass a secret if defined in app_config
-}
-
-# Create DNS record for each app
-resource "google_dns_record_set" "cname_record" {
-  for_each = var.app_config
-
-  managed_zone = data.google_dns_managed_zone.public_zone.name
-  name         = "${each.value.cname_subdomain}.${data.google_dns_managed_zone.public_zone.dns_name}"
-  type         = "CNAME"
-  ttl          = 300
-  rrdatas      = ["ghs.googlehosted.com."]
+  secret_name     = try(each.value.secret_name, null)
+  secret_key      = try(each.value.secret_key, null)
+  env_variable_name = try(each.value.env_variable_name, null)
 }
 
 # Create Cloud Run domain mapping for each app
