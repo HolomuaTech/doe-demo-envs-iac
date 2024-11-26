@@ -1,17 +1,13 @@
 # Output the Cloud Run service names
 output "cloud_run_service_names" {
-  description = "The Cloud Run service names."
-  value = {
-    for name, srv in google_cloud_run_service.cloud_run_service : name => srv.name
-  }
+  description = "The Cloud Run service names from the module."
+  value       = { for name, module in module.cloud_run_services : name => module.cloud_run_url }
 }
 
 # Output the Cloud Run service URLs
 output "cloud_run_service_urls" {
-  description = "The Cloud Run service URLs."
-  value = {
-    for name, srv in google_cloud_run_service.cloud_run_service : name => srv.status[0].url
-  }
+  description = "The Cloud Run service URLs from the module."
+  value       = { for name, module in module.cloud_run_services : name => module.cloud_run_url }
 }
 
 # Output the CNAME records for the subdomains
@@ -22,3 +18,8 @@ output "cname_records" {
   }
 }
 
+# Postgres secret. We need to pass this to the cloud run module
+output "postgres_root_secret_name" {
+  description = "The Secret Manager secret storing the root user password."
+  value       = module.belay_postgres_instance.postgres_root_secret_name
+}

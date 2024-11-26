@@ -14,7 +14,7 @@ app_config = {
     github_owner    = "derrinc"
     github_repo     = "doe-demo-ui"
     # image_url       = "gcr.io/cloudrun/hello"
-    image_url       = "us-west1-docker.pkg.dev/holomua-doe-demo/doe-demo-container-registry/doe-demo-ui"
+    image_url = "us-west1-docker.pkg.dev/holomua-doe-demo/doe-demo-container-registry/doe-demo-ui"
   },
   "doe-demo-api" = {
     app_name        = "doe-demo-api"
@@ -45,6 +45,7 @@ app_config = {
     github_owner    = "derrinc"
     github_repo     = "belay-api"
     image_url       = "gcr.io/cloudrun/hello"
+    secret_name     = "belay-db-postgres-root-password"
   }
 }
 

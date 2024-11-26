@@ -4,34 +4,20 @@ data "google_dns_managed_zone" "public_zone" {
   project = var.project_id
 }
 
-# Loop through each app in the app_config to create Cloud Run services
-resource "google_cloud_run_service" "cloud_run_service" {
+# Loop through each app in the app_config to create Cloud Run services using the module
+module "cloud_run_services" {
+  source = "git::https://github.com/HolomuaTech/tf-gcp-cloud-run.git"
+
   for_each = var.app_config
 
-  name     = each.key
-  location = var.region
-  project  = var.project_id
+  app_name = each.key
+  image    = each.value.image_url
+  region   = var.region
+  memory   = each.value.memory
+  cpu      = each.value.cpu
 
-  template {
-    spec {
-      containers {
-        image = each.value.image_url
-        resources {
-          limits = {
-            memory = each.value.memory
-            cpu    = each.value.cpu
-          }
-        }
-      }
-    }
-  }
-
-  # The "hello" container should only be set if cloud run is being initialized
-  lifecycle {
-    ignore_changes = [
-      template[0].spec[0].containers[0].image
-    ]
-  }
+  # Optionally pass secrets to specific apps (adjust as needed)
+  secret_name = try(each.value.secret_name, null) # Pass a secret if defined in app_config
 }
 
 # Create DNS record for each app
@@ -45,7 +31,6 @@ resource "google_dns_record_set" "cname_record" {
   rrdatas      = ["ghs.googlehosted.com."]
 }
 
-# Create Cloud Run domain mapping for each app
 # Create Cloud Run domain mapping for each app
 resource "google_cloud_run_domain_mapping" "domain_mapping" {
   for_each = var.app_config
@@ -65,15 +50,13 @@ resource "google_cloud_run_domain_mapping" "domain_mapping" {
     certificate_mode = "AUTOMATIC"
   }
 
-  # Add lifecycle block to ignore more changes
   lifecycle {
     ignore_changes = [
       metadata[0].annotations,
       metadata[0].namespace,
-      # metadata[0].effective_annotations,
       spec[0].force_override
     ]
   }
 
-  depends_on = [google_cloud_run_service.cloud_run_service]
+  depends_on = [module.cloud_run_services]
 }
