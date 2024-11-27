@@ -20,7 +20,7 @@ module "cloud_run_services" {
   cname_subdomain      = each.value.cname_subdomain
   domain_name          = each.value.domain_name
   project_number       = var.project_number
-  postgres_secret_name = try(each.value.postgres_secret_name, null)
+  postgres_secret_name = try(each.value.secret_name, null)
   secret_key           = "latest"
 }
 
