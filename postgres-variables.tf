@@ -1,39 +1,42 @@
-variable "belay_postgres_cidr_subnet" {
-  description = "Subnet name for Belay PostgreSQL"
+# doe-demo-envs-iac/postgres-variables.tf
+
+# PostgreSQL-specific Variables
+variable "postgres_cidr_range" {
+  description = "CIDR range for the PostgreSQL subnet"
+  type        = string
+  default     = "10.0.2.0/24" # Default for dev
+}
+
+variable "db_instance_name" {
+  description = "Name of the Cloud SQL instance"
   type        = string
 }
 
-variable "belay_db_instance_name" {
-  description = "Cloud SQL instance name for Belay"
-  type        = string
-}
-
-variable "belay_postgres_version" {
-  description = "PostgreSQL version for Belay"
+variable "postgres_version" {
+  description = "PostgreSQL version for the database"
   type        = string
   default     = "POSTGRES_14"
 }
 
-variable "belay_instance_size" {
-  description = "Machine type for the Belay PostgreSQL instance"
+variable "instance_size" {
+  description = "Machine type for the PostgreSQL instance"
   type        = string
   default     = "db-f1-micro"
 }
 
-variable "belay_disk_size" {
-  description = "Disk size for the Belay PostgreSQL instance"
+variable "disk_size" {
+  description = "Disk size in GB for the PostgreSQL instance"
   type        = number
   default     = 10
 }
 
-variable "belay_deletion_protection" {
-  description = "Enable or disable deletion protection for Belay database instance"
+variable "deletion_protection" {
+  description = "Enable or disable deletion protection for the PostgreSQL instance"
   type        = bool
   default     = false
 }
 
-variable "belay_database_name" {
-  description = "Application database name"
+variable "database_name" {
+  description = "Name of the PostgreSQL database to be created"
   type        = string
 }
-

@@ -10,24 +10,17 @@ module "cloud_run_services" {
 
   for_each = var.app_config
 
-  app_name        = each.key
-  image           = each.value.image_url
-  region          = var.region
-  memory          = each.value.memory
-  cpu             = each.value.cpu
-
-  # Pass DNS information to the module
-  dns_zone_name   = data.google_dns_managed_zone.public_zone.name  # Pass the managed zone name
-  dns_name        = chomp(data.google_dns_managed_zone.public_zone.dns_name)  # Pass the domain name
-  cname_subdomain = each.value.cname_subdomain
-
-  # Domain mapping information
-  domain_name     = each.value.domain_name
-  project_number  = var.project_number
-
-  # Optionally pass secrets to specific apps (adjust as needed)
-  secret_name     = try(each.value.secret_name, null)
-  secret_key      = try(each.value.secret_key, null)
-  env_variable_name = try(each.value.env_variable_name, null)
+  app_name             = each.key
+  image                = each.value.image_url
+  region               = var.region
+  memory               = each.value.memory
+  cpu                  = each.value.cpu
+  dns_zone_name        = data.google_dns_managed_zone.public_zone.name
+  dns_name             = chomp(data.google_dns_managed_zone.public_zone.dns_name)
+  cname_subdomain      = each.value.cname_subdomain
+  domain_name          = each.value.domain_name
+  project_number       = var.project_number
+  postgres_secret_name = try(each.value.postgres_secret_name, null)
+  secret_key           = "latest"
 }
 

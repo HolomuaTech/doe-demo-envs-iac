@@ -16,35 +16,36 @@ variable "region" {
 }
 
 variable "app_config" {
-  description = "Configuration for the multiple applications"
+  description = "Configuration for multiple applications"
   type = map(object({
-    app_name        = string
-    memory          = string
-    cpu             = string
-    cname_subdomain = string
-    domain_name     = string
-    github_owner    = string
-    github_repo     = string
-    image_url       = string
+    app_name          = string
+    memory            = string
+    cpu               = string
+    cname_subdomain   = string
+    domain_name       = string
+    github_owner      = string
+    github_repo       = string
+    image_url         = string
+    secret_name       = optional(string, null) # Optional for apps that don't use secrets
+    secret_key        = optional(string, "latest")
+    env_variable_name = optional(string, null) # Optional environment variable
   }))
 }
 
-### Network configuration
+# Network Configuration
 variable "env" {
   description = "Environment name (e.g., dev, test, prod)"
   type        = string
 }
 
 variable "cloud_run_cidr_range" {
-  description = "CIDR range for the Cloud Run subnet"
+  description = "Name of the GCP subnet resource for the cloud run network"
   type        = string
-  default     = "10.0.1.0/24" # Default for dev
 }
 
-variable "postgres_cidr_range" {
-  description = "CIDR range for the PostgreSQL subnet"
+variable "postgres_cidr_subnet" {
+  description = "Name of the GCP subnet resource for the postgres db network"
   type        = string
-  default     = "10.0.2.0/24" # Default for dev
 }
 
 variable "vpc_connector_cidr" {
@@ -71,3 +72,13 @@ variable "vpc_connector_machine_type" {
   default     = "e2-micro"
 }
 
+# DNS configuration for Cloud Run
+variable "dns_zone_name" {
+  description = "Name of the GCP DNS zone resource for creating the CNAME record (e.g., example-com-zone)"
+  type        = string
+}
+
+variable "dns_name" {
+  description = "DNS domain name (e.g., example.com)"
+  type        = string
+}
