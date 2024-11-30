@@ -16,7 +16,7 @@ variable "region" {
 }
 
 variable "app_config" {
-  description = "Configuration for multiple applications"
+  description = "Configuration for multiple applications."
   type = map(object({
     app_name          = string
     memory            = string
@@ -26,9 +26,9 @@ variable "app_config" {
     github_owner      = string
     github_repo       = string
     image_url         = string
-    secret_name       = optional(string, null) # Optional for apps that don't use secrets
-    secret_key        = optional(string, "latest")
-    env_variable_name = optional(string, null) # Optional environment variable
+    service_account_name = optional(string, null)
+    public_env_vars   = optional(map(string), {}) # Key-value pairs for public environment variables
+    private_env_vars  = optional(map(string), {}) # Key-value pairs for private environment variables
   }))
 }
 
@@ -81,4 +81,26 @@ variable "dns_zone_name" {
 variable "dns_name" {
   description = "DNS domain name (e.g., example.com)"
   type        = string
+}
+
+variable "artifact_registry_repo_name" {
+  type        = string
+  description = "The ID of the Artifact Registry repository used by Cloud Run."
+}
+
+variable "artifact_registry_repo_location" {
+  type        = string
+  description = "The location of the Artifact Registry repository (region)."
+}
+
+variable "public_env_vars" {
+  description = "Public environment variables as key-value pairs."
+  type        = map(string)
+  default     = {} # Default to empty map
+}   
+    
+variable "private_env_vars" {
+  description = "Private environment variables with key-value pairs of environment variable names and secret names."
+  type        = map(string)
+  default     = {} # Default to empty map
 }

@@ -4,6 +4,13 @@ data "google_dns_managed_zone" "public_zone" {
   project = var.project_id
 }
 
+# Fetch Artifact Registry repository details
+data "google_artifact_registry_repository" "artifact_registry" {
+  repository_id = var.artifact_registry_repo_name
+  location      = var.artifact_registry_repo_location
+  project       = var.project_id
+}
+
 # Loop through each app in the app_config to create Cloud Run services using the module
 module "cloud_run_services" {
   source = "git::https://github.com/HolomuaTech/tf-gcp-cloud-run.git"
@@ -20,7 +27,15 @@ module "cloud_run_services" {
   cname_subdomain      = each.value.cname_subdomain
   domain_name          = each.value.domain_name
   project_number       = var.project_number
-  postgres_secret_name = try(each.value.secret_name, null)
-  secret_key           = "latest"
+  service_account_name = try(each.value.service_account_name, null)
+
+  # Pass environment variables
+  public_env_vars  = try(each.value.public_env_vars, {})   # Default to empty map if null
+  secret_env_vars  = try(each.value.private_env_vars, {})  # Map secrets to `secret_env_vars`
+
+  # Pass Artifact Registry details to the module
+  artifact_registry_repo_name     = data.google_artifact_registry_repository.artifact_registry.repository_id
+  artifact_registry_repo_location = data.google_artifact_registry_repository.artifact_registry.location
+  project_id                      = var.project_id
 }
 
