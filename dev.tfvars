@@ -22,6 +22,7 @@ app_config = {
     github_owner    = "derrinc"
     github_repo     = "doe-demo-ui"
     image_url       = "gcr.io/cloudrun/hello"
+    # No database access needed
   },
   "doe-demo-api" = {
     app_name        = "doe-demo-api"
@@ -32,6 +33,7 @@ app_config = {
     github_owner    = "derrinc"
     github_repo     = "doe-demo-api"
     image_url       = "gcr.io/cloudrun/hello"
+    # No database access needed
   },
   "belay-ui" = {
     app_name        = "belay-ui"
@@ -42,6 +44,7 @@ app_config = {
     github_owner    = "derrinc"
     github_repo     = "belay-ui"
     image_url       = "gcr.io/cloudrun/hello"
+    # No database access needed
   },
   "belay-api" = {
     app_name        = "belay-api"
@@ -53,33 +56,24 @@ app_config = {
     github_repo     = "belay-api"
     image_url       = "gcr.io/cloudrun/hello"
     public_env_vars = {
-      PGHOST     = "belay-api-db.holomuatech.online"
+      PGHOST     = "belay-dev-db.holomuatech.online"
       PGPORT     = "5432"
       PGDATABASE = "belay-dev"
       PGUSER     = "postgres"
     }
     private_env_vars = {
-      PGPASSWORD = "belay-dev-pgpassword"
+      PGPASSWORD = "belay-dev-postgres-root-password"
     }
+    grant_cloudsql_access = true # Enable Cloud SQL access for belay-api
   }
 }
 
-# Network configuration
-cloud_run_cidr_range         = "10.0.1.0/24"
-postgres_cidr_range          = "10.0.2.0/24"
-vpc_connector_cidr           = "10.8.0.0/28"
-vpc_connector_min_throughput = 200
-vpc_connector_max_throughput = 300
-
-# VPC Access Connector machine type
-vpc_connector_machine_type = "e2-micro"
-
 # PostgreSQL database instance configuration
-database_name        = "belay-dev"
-db_instance_name     = "belay-dev"
-postgres_version     = "POSTGRES_14"
-instance_size        = "db-f1-micro"
-disk_size            = 10
-deletion_protection  = false
-postgres_cidr_subnet = "dev-postgres-subnet"
+database_name       = "belay-dev"
+db_instance_name    = "belay-dev"
+postgres_version    = "POSTGRES_14"
+instance_size       = "db-f1-micro"
+disk_size           = 10
+deletion_protection = false
+cname_subdomain     = "belay-dev"
 

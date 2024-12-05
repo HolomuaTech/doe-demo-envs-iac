@@ -1,11 +1,4 @@
-# doe-demo-envs-iac/postgres-variables.tf
-
 # PostgreSQL-specific Variables
-variable "postgres_cidr_range" {
-  description = "CIDR range for the PostgreSQL subnet"
-  type        = string
-  default     = "10.0.2.0/24" # Default for dev
-}
 
 variable "db_instance_name" {
   description = "Name of the Cloud SQL instance"
@@ -40,3 +33,9 @@ variable "database_name" {
   description = "Name of the PostgreSQL database to be created"
   type        = string
 }
+
+variable "cname_subdomain" {
+  description = "Subdomain for the PostgreSQL database DNS entry"
+  type        = string
+}
+

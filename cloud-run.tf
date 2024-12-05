@@ -13,7 +13,7 @@ data "google_artifact_registry_repository" "artifact_registry" {
 
 # Loop through each app in the app_config to create Cloud Run services using the module
 module "cloud_run_services" {
-  source = "git::https://github.com/HolomuaTech/tf-gcp-cloud-run.git"
+  source = "git::https://github.com/HolomuaTech/tf-gcp-cloud-run.git?ref=refactor-split"
 
   for_each = var.app_config
 
@@ -27,15 +27,20 @@ module "cloud_run_services" {
   cname_subdomain      = each.value.cname_subdomain
   domain_name          = each.value.domain_name
   project_number       = var.project_number
-  service_account_name = try(each.value.service_account_name, null)
+
+  # Removed the service_account_name argument
+  # service_account_name = try(each.value.service_account_name, null)
 
   # Pass environment variables
-  public_env_vars  = try(each.value.public_env_vars, {})   # Default to empty map if null
-  secret_env_vars  = try(each.value.private_env_vars, {})  # Map secrets to `secret_env_vars`
+  public_env_vars  = try(each.value.public_env_vars, {})  # Default to empty map if null
+  secret_env_vars  = try(each.value.private_env_vars, {}) # Map secrets to `secret_env_vars`
 
   # Pass Artifact Registry details to the module
   artifact_registry_repo_name     = data.google_artifact_registry_repository.artifact_registry.repository_id
   artifact_registry_repo_location = data.google_artifact_registry_repository.artifact_registry.location
   project_id                      = var.project_id
+
+  # Pass the grant_cloudsql_access flag
+  grant_cloudsql_access = try(each.value.grant_cloudsql_access, false)
 }
 
