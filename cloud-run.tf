@@ -17,23 +17,23 @@ module "cloud_run_services" {
 
   for_each = var.app_config
 
-  app_name             = each.key
-  image                = each.value.image_url
-  region               = var.region
-  memory               = each.value.memory
-  cpu                  = each.value.cpu
-  dns_zone_name        = data.google_dns_managed_zone.public_zone.name
-  dns_name             = chomp(data.google_dns_managed_zone.public_zone.dns_name)
-  cname_subdomain      = each.value.cname_subdomain
-  domain_name          = each.value.domain_name
-  project_number       = var.project_number
+  app_name        = each.key
+  image           = each.value.image_url
+  region          = var.region
+  memory          = each.value.memory
+  cpu             = each.value.cpu
+  dns_zone_name   = data.google_dns_managed_zone.public_zone.name
+  dns_name        = chomp(data.google_dns_managed_zone.public_zone.dns_name)
+  cname_subdomain = each.value.cname_subdomain
+  domain_name     = each.value.domain_name
+  project_number  = var.project_number
 
   # Removed the service_account_name argument
   # service_account_name = try(each.value.service_account_name, null)
 
   # Pass environment variables
-  public_env_vars  = try(each.value.public_env_vars, {})  # Default to empty map if null
-  secret_env_vars  = try(each.value.private_env_vars, {}) # Map secrets to `secret_env_vars`
+  public_env_vars = try(each.value.public_env_vars, {})  # Default to empty map if null
+  secret_env_vars = try(each.value.private_env_vars, {}) # Map secrets to `secret_env_vars`
 
   # Pass Artifact Registry details to the module
   artifact_registry_repo_name     = data.google_artifact_registry_repository.artifact_registry.repository_id

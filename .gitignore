@@ -26,3 +26,4 @@ crash.log
 # Ignore .DS_Store files (macOS-specific metadata files)
 .DS_Store
 
+.envrc

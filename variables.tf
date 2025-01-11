@@ -70,3 +70,21 @@ variable "private_env_vars" {
   type        = map(string)
   default     = {} # Default to empty map
 }
+
+# For the github repo
+variable "github_token" {
+  description = "GitHub Personal Access Token for authentication"
+  type        = string
+  sensitive   = true
+}
+
+variable "helm_chart_repo" {
+  description = "Configuration for the Helm chart repository"
+  type = object({
+    name         = string
+    organization = string
+    description  = string
+    visibility   = string
+    auto_init    = bool
+  })
+}

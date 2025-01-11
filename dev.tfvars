@@ -44,25 +44,34 @@ app_config = {
     github_owner    = "derrinc"
     github_repo     = "belay-ui"
     image_url       = "gcr.io/cloudrun/hello"
-    # No database access needed
+    public_env_vars = {
+      NEXT_PUBLIC_GITHUB_CLIENT_ID = "Ov23liCkTeFKAy2IBGBS"
+      NEXT_PUBLIC_APP_URL          = "https://belay.dev.holomuatech.online"
+      NEXT_PUBLIC_API_URL          = "https://belay-api.dev.holomuatech.online"
+      NEXTAUTH_URL                 = "https://belay.dev.holomuatech.online"
+    }
+    private_env_vars = {
+      GITHUB_CLIENT_SECRET = "belay-ui-env-GITHUB_CLIENT_SECRET"
+      NEXTAUTH_SECRET      = "belay-ui-env-NEXTAUTH_SECRET"
+    }
   },
   "belay-api" = {
     app_name        = "belay-api"
-    memory          = "128Mi"
-    cpu             = "0.08"
+    memory          = "512Mi"
+    cpu             = "0.5"
     cname_subdomain = "belay-api.dev"
     domain_name     = "belay-api.dev.holomuatech.online"
     github_owner    = "derrinc"
     github_repo     = "belay-api"
     image_url       = "gcr.io/cloudrun/hello"
     public_env_vars = {
-      PGHOST     = "belay-dev-db.holomuatech.online"
-      PGPORT     = "5432"
-      PGDATABASE = "belay-dev"
-      PGUSER     = "postgres"
+      DatabaseSettings__Host     = "belay-dev-db.holomuatech.online"
+      DatabaseSettings__Database = "belay"
+      DatabaseSettings__Username = "postgres"
+      ASPNETCORE_URLS            = "http://*:8080"
     }
     private_env_vars = {
-      PGPASSWORD = "belay-dev-postgres-root-password"
+      DatabaseSettings__Password = "belay-dev-postgres-root-password"
     }
     grant_cloudsql_access = true # Enable Cloud SQL access for belay-api
   }
@@ -77,3 +86,11 @@ disk_size           = 10
 deletion_protection = false
 cname_subdomain     = "belay-dev"
 
+# Github repo for application helm chart
+helm_chart_repo = {
+  name         = "helm-charts-doe-demo"
+  organization = "HolomuaTech"
+  description  = "Repository for Helm charts for the Doe Demo project."
+  visibility   = "private"
+  auto_init    = true
+}
