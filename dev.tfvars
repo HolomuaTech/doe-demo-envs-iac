@@ -17,8 +17,8 @@ app_config = {
     app_name        = "doe-demo-ui"
     memory          = "128Mi"
     cpu             = "0.08"
-    cname_subdomain = "dev.ui"
-    domain_name     = "dev.ui.holomuatech.online"
+    cname_subdomain = "helloworld.demo"
+    domain_name     = "helloworld.demo.holomuatech.online"
     github_owner    = "derrinc"
     github_repo     = "doe-demo-ui"
     image_url       = "gcr.io/cloudrun/hello"
@@ -37,15 +37,15 @@ app_config = {
   },
   "belay-ui" = {
     app_name        = "belay-ui"
-    memory          = "128Mi"
-    cpu             = "0.08"
+    memory          = "256Mi"
+    cpu             = "0.25"
     cname_subdomain = "belay.dev"
     domain_name     = "belay.dev.holomuatech.online"
     github_owner    = "derrinc"
     github_repo     = "belay-ui"
     image_url       = "gcr.io/cloudrun/hello"
     public_env_vars = {
-      NEXT_PUBLIC_GITHUB_CLIENT_ID = "Ov23liCkTeFKAy2IBGBS"
+      NEXT_PUBLIC_GITHUB_CLIENT_ID = "Ov23liczS04mMDejrthN"
       NEXT_PUBLIC_APP_URL          = "https://belay.dev.holomuatech.online"
       NEXT_PUBLIC_API_URL          = "https://belay-api.dev.holomuatech.online"
       NEXTAUTH_URL                 = "https://belay.dev.holomuatech.online"
@@ -85,6 +85,12 @@ instance_size       = "db-f1-micro"
 disk_size           = 10
 deletion_protection = false
 cname_subdomain     = "belay-dev"
+authorized_networks = [
+  {
+    name  = "everywhere"
+    value = "0.0.0.0/0"
+  }
+]
 
 # Github repo for application helm chart
 helm_chart_repo = {
@@ -94,3 +100,4 @@ helm_chart_repo = {
   visibility   = "private"
   auto_init    = true
 }
+

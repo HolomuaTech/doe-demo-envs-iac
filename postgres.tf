@@ -11,5 +11,6 @@ module "postgres_instance" {
   dns_zone_name       = var.dns_zone_name
   dns_name            = var.dns_name
   cname_subdomain     = var.cname_subdomain
+  authorized_networks = var.authorized_networks
 }
 
