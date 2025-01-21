@@ -13,7 +13,7 @@ data "google_artifact_registry_repository" "artifact_registry" {
 
 # Loop through each app in the app_config to create Cloud Run services using the module
 module "cloud_run_services" {
-  source = "git::https://github.com/HolomuaTech/tf-gcp-cloud-run.git?ref=refactor-split"
+  source = "git::https://github.com/HolomuaTech/tf-gcp-cloud-run.git?ref=main"
 
   for_each = var.app_config
 
@@ -27,9 +27,6 @@ module "cloud_run_services" {
   cname_subdomain = each.value.cname_subdomain
   domain_name     = each.value.domain_name
   project_number  = var.project_number
-
-  # Removed the service_account_name argument
-  # service_account_name = try(each.value.service_account_name, null)
 
   # Pass environment variables
   public_env_vars = try(each.value.public_env_vars, {})  # Default to empty map if null
