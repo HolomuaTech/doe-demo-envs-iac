@@ -44,15 +44,8 @@ app_config = {
     github_owner    = "derrinc"
     github_repo     = "belay-ui"
     image_url       = "gcr.io/cloudrun/hello"
-    public_env_vars = {
-      NEXT_PUBLIC_GITHUB_CLIENT_ID = "Ov23liczS04mMDejrthN"
-      NEXT_PUBLIC_APP_URL          = "https://belay.dev.holomuatech.online"
-      NEXT_PUBLIC_API_URL          = "https://belay-api.dev.holomuatech.online"
-      NEXTAUTH_URL                 = "https://belay.dev.holomuatech.online"
-    }
     private_env_vars = {
       GITHUB_CLIENT_SECRET = "belay-ui-env-GITHUB_CLIENT_SECRET"
-      NEXTAUTH_SECRET      = "belay-ui-env-NEXTAUTH_SECRET"
     }
   },
   "belay-api" = {
